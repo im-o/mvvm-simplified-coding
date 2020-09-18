@@ -6,17 +6,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.newmvvmsimplifiedcarakde.R
+import com.example.newmvvmsimplifiedcarakde.databinding.FragmentLoginBinding
+import com.example.newmvvmsimplifiedcarakde.network.AuthApi
+import com.example.newmvvmsimplifiedcarakde.repository.AuthRepository
+import com.example.newmvvmsimplifiedcarakde.ui.base.BaseFragment
 
 /**
  * A simple [Fragment] subclass.
  */
-class LoginFragment : Fragment() {
+class LoginFragment : BaseFragment<AuthViewModel, FragmentLoginBinding, AuthRepository>() {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_login, container, false)
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        //here call function binding and viewModel: login etc.
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
+    override fun getViewModel(): Class<AuthViewModel>  = AuthViewModel::class.java
+
+    override fun getFragmentBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): FragmentLoginBinding = FragmentLoginBinding.inflate(inflater, container, false)
+
+    override fun getFragmentRepository() = AuthRepository(remoteDataSource.buildApi(AuthApi::class.java))
 }
