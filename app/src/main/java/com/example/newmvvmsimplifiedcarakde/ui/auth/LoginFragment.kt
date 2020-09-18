@@ -5,11 +5,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import com.example.newmvvmsimplifiedcarakde.R
 import com.example.newmvvmsimplifiedcarakde.databinding.FragmentLoginBinding
 import com.example.newmvvmsimplifiedcarakde.network.AuthApi
+import com.example.newmvvmsimplifiedcarakde.network.Resource
 import com.example.newmvvmsimplifiedcarakde.repository.AuthRepository
 import com.example.newmvvmsimplifiedcarakde.ui.base.BaseFragment
+import com.example.newmvvmsimplifiedcarakde.utils.gone
+import com.example.newmvvmsimplifiedcarakde.utils.myToast
+import com.example.newmvvmsimplifiedcarakde.utils.visible
 
 /**
  * A simple [Fragment] subclass.
@@ -18,7 +23,25 @@ class LoginFragment : BaseFragment<AuthViewModel, FragmentLoginBinding, AuthRepo
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        //here call function binding and viewModel: login etc.
+        //@todo here call function binding and viewModel
+        viewModel.tokenResponse.observe(viewLifecycleOwner, Observer {
+            binding.loginProgressPB.gone()
+            when(it){
+                is Resource.Success -> {
+                    requireContext().myToast("${getString(R.string.login_success)} $it")
+                }
+                is Resource.Failure -> {
+                    requireContext().myToast("${getString(R.string.login_failure)} $it")
+                }
+            }
+        })
+        binding.loginMB.setOnClickListener {
+            //@todo add input validations
+            binding.loginProgressPB.visible()
+            val email = binding.userEmailET.text.toString().trim()
+            val password = binding.userPassET.text.toString().trim()
+            viewModel.login(email, password)
+        }
     }
 
     override fun getViewModel(): Class<AuthViewModel>  = AuthViewModel::class.java

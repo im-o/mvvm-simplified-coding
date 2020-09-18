@@ -1,6 +1,6 @@
 package com.example.newmvvmsimplifiedcarakde.network
 
-import com.example.newmvvmsimplifiedcarakde.responses.ResponseToken
+import com.example.newmvvmsimplifiedcarakde.responses.TokenResponse
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
@@ -16,5 +16,5 @@ interface AuthApi {
     suspend fun login(
         @Field("email") email: String,
         @Field("password") password: String
-    ): ResponseToken
+    ): TokenResponse
 }

@@ -9,4 +9,6 @@
     <string name="sample_pass">cityslicka</string>
     <string name="register">Register</string>
     <string name="login">Login</string>
+    <string name="login_success">Login Success :</string>
+    <string name="login_failure">Login Failure :</string>
 </resources>
