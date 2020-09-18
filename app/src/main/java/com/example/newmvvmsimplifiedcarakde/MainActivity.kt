@@ -2,7 +2,7 @@ package com.example.newmvvmsimplifiedcarakde
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.newmvvmsimplifiedcarakde.ui.AuthActivity
+import com.example.newmvvmsimplifiedcarakde.ui.auth.AuthActivity
 import com.example.newmvvmsimplifiedcarakde.utils.openActivity
 
 class MainActivity : AppCompatActivity() {

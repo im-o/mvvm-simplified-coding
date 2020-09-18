@@ -1,4 +1,4 @@
-package com.example.newmvvmsimplifiedcarakde.ui
+package com.example.newmvvmsimplifiedcarakde.ui.auth
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
