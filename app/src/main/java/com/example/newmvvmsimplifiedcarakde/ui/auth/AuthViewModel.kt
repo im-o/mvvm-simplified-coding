@@ -1,7 +1,13 @@
 package com.example.newmvvmsimplifiedcarakde.ui.auth
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.newmvvmsimplifiedcarakde.network.Resource
 import com.example.newmvvmsimplifiedcarakde.repository.AuthRepository
+import com.example.newmvvmsimplifiedcarakde.responses.TokenResponse
+import kotlinx.coroutines.launch
 
 /**
  * Created by rivaldy on Sep/18/2020.
@@ -10,6 +16,16 @@ import com.example.newmvvmsimplifiedcarakde.repository.AuthRepository
 
 class AuthViewModel(
     private val repository: AuthRepository
-): ViewModel() {
+) : ViewModel() {
 
+    private val _tokenResponse: MutableLiveData<Resource<TokenResponse>> = MutableLiveData()
+    val tokenResponse: LiveData<Resource<TokenResponse>>
+        get() = _tokenResponse
+
+    fun login(
+        email: String,
+        password: String
+    ) = viewModelScope.launch {
+        _tokenResponse.value = repository.login(email, password)
+    }
 }
