@@ -17,20 +17,29 @@ class RemoteDataSource {
         private const val BASE_URL = "http://simplifiedcoding.tech/mywebapp/public/api/"
     }
 
-    fun<Api> buildApi(
-        api: Class<Api>
+    fun <Api> buildApi(
+        api: Class<Api>,
+        authToken: String? = null
     ): Api {
-
-        val loggingInterceptor =
-            if (BuildConfig.DEBUG) HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-            else HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
-        val okHttpClient = OkHttpClient.Builder()
-            .addInterceptor(loggingInterceptor)
-            .build()
-
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .client(okHttpClient)
+            .client(
+                OkHttpClient.Builder()
+                    .addInterceptor { chain ->
+                        chain.proceed(
+                            chain.request().newBuilder().also {
+                                it.addHeader("Authorization", "Bearer $authToken")
+                            }.build()
+                        )
+                    }
+                    .also { client ->
+                        if (BuildConfig.DEBUG) {
+                            val logging = HttpLoggingInterceptor()
+                            logging.setLevel(HttpLoggingInterceptor.Level.BODY)
+                            client.addInterceptor(logging)
+                        }
+                    }.build()
+            )
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(api)

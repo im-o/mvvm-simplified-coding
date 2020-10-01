@@ -7,12 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
 import com.example.newmvvmsimplifiedcarakde.data.UserPreferences
 
 import com.example.newmvvmsimplifiedcarakde.data.network.RemoteDataSource
 import com.example.newmvvmsimplifiedcarakde.data.repository.BaseRepository
 import com.example.newmvvmsimplifiedcarakde.ui.auth.ViewModelFactory
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 /**
  * A simple [Fragment] subclass.
@@ -34,6 +37,11 @@ abstract class BaseFragment<VM: ViewModel, B:  ViewBinding, R: BaseRepository> :
         binding = getFragmentBinding(inflater, container)
         val factory = ViewModelFactory(getFragmentRepository())
         viewModel = ViewModelProvider(this, factory)[getViewModel()]
+
+        lifecycleScope.launch {
+            userPreferences.authToken.first()
+        }
+
         return binding.root
     }
 
