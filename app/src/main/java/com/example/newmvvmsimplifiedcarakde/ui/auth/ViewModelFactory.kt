@@ -2,8 +2,8 @@ package com.example.newmvvmsimplifiedcarakde.ui.auth
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.newmvvmsimplifiedcarakde.repository.AuthRepository
-import com.example.newmvvmsimplifiedcarakde.repository.BaseRepository
+import com.example.newmvvmsimplifiedcarakde.data.repository.AuthRepository
+import com.example.newmvvmsimplifiedcarakde.data.repository.BaseRepository
 
 /**
  * Created by rivaldy on Sep/18/2020.

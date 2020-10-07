@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.newmvvmsimplifiedcarakde.network.Resource
-import com.example.newmvvmsimplifiedcarakde.repository.AuthRepository
-import com.example.newmvvmsimplifiedcarakde.responses.TokenResponse
+import com.example.newmvvmsimplifiedcarakde.data.network.Resource
+import com.example.newmvvmsimplifiedcarakde.data.repository.AuthRepository
+import com.example.newmvvmsimplifiedcarakde.data.responses.TokenResponse
 import kotlinx.coroutines.launch
 
 /**
