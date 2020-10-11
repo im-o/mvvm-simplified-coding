@@ -1,4 +1,4 @@
-package com.example.newmvvmsimplifiedcarakde.network
+package com.example.newmvvmsimplifiedcarakde.data.network
 
 import com.example.newmvvmsimplifiedcarakde.BuildConfig
 import okhttp3.OkHttpClient

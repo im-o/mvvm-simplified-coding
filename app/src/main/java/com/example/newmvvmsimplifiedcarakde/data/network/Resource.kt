@@ -1,4 +1,4 @@
-package com.example.newmvvmsimplifiedcarakde.network
+package com.example.newmvvmsimplifiedcarakde.data.network
 
 import okhttp3.ResponseBody
 

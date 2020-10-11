@@ -1,4 +1,4 @@
-package com.example.newmvvmsimplifiedcarakde.responses
+package com.example.newmvvmsimplifiedcarakde.data.responses
 
 
 import com.google.gson.annotations.SerializedName

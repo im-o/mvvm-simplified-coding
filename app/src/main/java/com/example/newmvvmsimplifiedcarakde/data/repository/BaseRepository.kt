@@ -1,6 +1,6 @@
-package com.example.newmvvmsimplifiedcarakde.repository
+package com.example.newmvvmsimplifiedcarakde.data.repository
 
-import com.example.newmvvmsimplifiedcarakde.network.Resource
+import com.example.newmvvmsimplifiedcarakde.data.network.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
