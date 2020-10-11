@@ -15,17 +15,18 @@ import kotlinx.coroutines.launch
  */
 
 class AuthViewModel(
-    private val repository: AuthRepository
+    private val repository: AuthRepository,
 ) : ViewModel() {
 
     private val _tokenResponse: MutableLiveData<Resource<TokenResponse>> = MutableLiveData()
     val tokenResponse: LiveData<Resource<TokenResponse>>
         get() = _tokenResponse
 
-    fun login(
-        email: String,
-        password: String
-    ) = viewModelScope.launch {
+    fun login(email: String, password: String) = viewModelScope.launch {
         _tokenResponse.value = repository.login(email, password)
+    }
+
+    fun saveAuthToken(token: String) = viewModelScope.launch {
+        repository.saveAuthToken(token)
     }
 }
