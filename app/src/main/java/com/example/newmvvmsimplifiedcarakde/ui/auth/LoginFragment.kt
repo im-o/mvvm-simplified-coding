@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.example.newmvvmsimplifiedcarakde.R
 import com.example.newmvvmsimplifiedcarakde.data.network.AuthApi
 import com.example.newmvvmsimplifiedcarakde.data.network.Resource
@@ -14,6 +15,7 @@ import com.example.newmvvmsimplifiedcarakde.ui.base.BaseFragment
 import com.example.newmvvmsimplifiedcarakde.ui.home.HomeActivity
 import com.example.newmvvmsimplifiedcarakde.utils.*
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.coroutines.launch
 
 /**
  * A simple [Fragment] subclass.
@@ -25,23 +27,22 @@ class LoginFragment : BaseFragment<AuthViewModel, FragmentLoginBinding, AuthRepo
         editTextListener(binding.userEmailET)
         editTextListener(binding.userPassET)
         viewModel.tokenResponse.observe(viewLifecycleOwner, {
-            binding.loginProgressPB.gone()
+            binding.loginProgressPB.visible(it is Resource.Loading)
             when (it) {
                 is Resource.Success -> {
-                    viewModel.saveAuthToken(it.value.user?.accessToken.toString())
-                    requireContext().myToast("${getString(R.string.login_success)} $it")
-                    requireContext().startNewActivity(HomeActivity::class.java)
+                    lifecycleScope.launch {
+                        viewModel.saveAuthToken(it.value.user?.accessToken.toString())
+                        requireContext().myToast("${getString(R.string.login_success)} $it")
+                        requireContext().startNewActivity(HomeActivity::class.java)
+                    }
                 }
-                is Resource.Failure -> {
-                    requireContext().myToast("${getString(R.string.login_failure)} $it")
-                }
+                is Resource.Failure -> handleApiError(it)
             }
         })
 
         binding.loginMB.setOnClickListener {
             val email = binding.userEmailET.text.toString().trim()
             val password = binding.userPassET.text.toString().trim()
-            binding.loginProgressPB.visible()
             viewModel.login(email, password)
         }
     }

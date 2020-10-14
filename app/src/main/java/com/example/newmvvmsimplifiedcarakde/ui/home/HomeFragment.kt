@@ -10,7 +10,6 @@ import com.example.newmvvmsimplifiedcarakde.data.repository.UserRepository
 import com.example.newmvvmsimplifiedcarakde.data.responses.User
 import com.example.newmvvmsimplifiedcarakde.databinding.FragmentHomeBinding
 import com.example.newmvvmsimplifiedcarakde.ui.base.BaseFragment
-import com.example.newmvvmsimplifiedcarakde.utils.gone
 import com.example.newmvvmsimplifiedcarakde.utils.visible
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -19,17 +18,17 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding, UserReposi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.loadingProgress.gone()
+        binding.loadingProgress.visible(false)
         viewModel.getUser()
         viewModel.user.observe(viewLifecycleOwner, {
             when (it) {
                 is Resource.Success -> {
-                    binding.loadingProgress.gone()
+                    binding.loadingProgress.visible(false)
                     updateUI(it.value.user)
                 }
 
                 is Resource.Loading -> {
-                    binding.loadingProgress.visible()
+                    binding.loadingProgress.visible(true)
                 }
             }
         })
