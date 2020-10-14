@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.asLiveData
 import com.example.newmvvmsimplifiedcarakde.data.UserPreferences
 import com.example.newmvvmsimplifiedcarakde.ui.auth.AuthActivity
-import com.example.newmvvmsimplifiedcarakde.ui.home.HomeActivity
+import com.example.newmvvmsimplifiedcarakde.utils.myToast
 import com.example.newmvvmsimplifiedcarakde.utils.startNewActivity
 
 class MainActivity : AppCompatActivity() {
@@ -16,8 +16,9 @@ class MainActivity : AppCompatActivity() {
 
         val userPreferences = UserPreferences(this) //not good idea, only for now
         userPreferences.authToken.asLiveData().observe(this, {
-            val activity = if (it == null) AuthActivity::class.java else HomeActivity::class.java
-            startNewActivity(activity)
+            myToast("USER TOKEN : $it")
+            //val activity = if (it == null) AuthActivity::class.java else HomeActivity::class.java
+            startNewActivity(AuthActivity::class.java)
         })
     }
 }

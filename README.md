@@ -1,4 +1,4 @@
-# Learn Android Login/Signup with MVVM Paattern
+# Learn Android Login/Signup with MVVM Pattern
 I rewrite this code from youtube [Simplified Coding](https://www.youtube.com/watch?v=zFsy0XTJdlg&list=PLk7v1Z2rk4hgmIvyw8rvpiEQxIAbJvDAF)
 
 **Want to contribute ? Follow this :**
