@@ -1,15 +1,57 @@
 package com.example.newmvvmsimplifiedcarakde.ui.home
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.newmvvmsimplifiedcarakde.R
+import com.example.newmvvmsimplifiedcarakde.data.network.Resource
+import com.example.newmvvmsimplifiedcarakde.data.network.UserApi
+import com.example.newmvvmsimplifiedcarakde.data.repository.UserRepository
+import com.example.newmvvmsimplifiedcarakde.data.responses.User
+import com.example.newmvvmsimplifiedcarakde.databinding.FragmentHomeBinding
+import com.example.newmvvmsimplifiedcarakde.ui.base.BaseFragment
+import com.example.newmvvmsimplifiedcarakde.utils.gone
+import com.example.newmvvmsimplifiedcarakde.utils.visible
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 
-class HomeFragment : Fragment() {
+class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding, UserRepository>() {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_home, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.loadingProgress.gone()
+        viewModel.getUser()
+        viewModel.user.observe(viewLifecycleOwner, {
+            when (it) {
+                is Resource.Success -> {
+                    binding.loadingProgress.gone()
+                    updateUI(it.value.user)
+                }
+
+                is Resource.Loading -> {
+                    binding.loadingProgress.visible()
+                }
+            }
+        })
+    }
+
+    private fun updateUI(user: User?) {
+        with(binding) {
+            val userResult = "ID : ${user?.id}\nName : ${user?.name}\nEmail : ${user?.email}"
+            resultTV.text = userResult
+        }
+    }
+
+    override fun getViewModel() = HomeViewModel::class.java
+
+    override fun getFragmentBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ) = FragmentHomeBinding.inflate(inflater, container, false)
+
+    override fun getFragmentRepository(): UserRepository {
+        val token = runBlocking { userPreferences.authToken.first() }
+        val api = remoteDataSource.buildApi(UserApi::class.java, token)
+        return UserRepository(api)
     }
 }
