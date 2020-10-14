@@ -28,7 +28,7 @@ class LoginFragment : BaseFragment<AuthViewModel, FragmentLoginBinding, AuthRepo
             binding.loginProgressPB.gone()
             when (it) {
                 is Resource.Success -> {
-                    viewModel.saveAuthToken(it.value.userToken.toString())
+                    viewModel.saveAuthToken(it.value.user?.accessToken.toString())
                     requireContext().myToast("${getString(R.string.login_success)} $it")
                     requireContext().startNewActivity(HomeActivity::class.java)
                 }
