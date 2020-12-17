@@ -12,4 +12,6 @@
     <string name="login_success">Login Success :</string>
     <string name="login_failure">Login Failure :</string>
     <string name="welcome_user">WELCOME USER</string>
+    <string name="check_connection">Please check your connection</string>
+    <string name="incorrect_email_password">Incorrect email or password</string>
 </resources>
